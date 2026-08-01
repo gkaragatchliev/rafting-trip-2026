@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annual Rafting Trip 2026 — Vote & Availability</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛶</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="hero-kicker">Rafting with Friends · Oregon &amp; Washington · 2026</p>
+      <h1>🛶 Annual Rafting Trip — Where &amp; When?</h1>
+      <p class="hero-sub">
+        Vote for your favorite river, pick the weekends you're free, and we'll instantly see
+        <strong>which dates work for everyone</strong> and which trip the group prefers.
+      </p>
+      <div class="hero-actions">
+        <a href="#trips" class="btn btn-primary">See the 4 trips</a>
+        <a href="#vote" class="btn btn-ghost">Vote now</a>
+        <a href="#results" class="btn btn-ghost">View results</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Trips -->
+    <section id="trips" class="section">
+      <div class="container">
+        <h2 class="section-title">The 4 shortlisted trips</h2>
+        <p class="section-sub">Click a trip card to make it your favorite (or tap it in the voting form).</p>
+        <div id="trip-cards" class="trip-grid"></div>
+      </div>
+    </section>
+
+    <!-- Vote -->
+    <section id="vote" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">Cast your vote</h2>
+        <p class="section-sub">Each household votes once. Votes are saved on this device and can be shared with a link.</p>
+
+        <div class="vote-layout">
+          <form id="vote-form" class="card vote-card">
+            <label class="field">
+              <span>Your name / household</span>
+              <input type="text" id="voter-name" placeholder="e.g. The Garcias" required maxlength="40" />
+            </label>
+
+            <div class="field">
+              <span>Your favorite trip</span>
+              <div id="favorite-picker" class="favorite-picker"></div>
+              <p class="hint">Your vote. Pick the trip you most want to do.</p>
+            </div>
+
+            <div class="field">
+              <span>Weekends you are available</span>
+              <div id="availability-picker" class="availability-picker"></div>
+              <p class="hint">Check every weekend block you could make work. The site will find dates everyone has in common.</p>
+            </div>
+
+            <div class="field">
+              <span>Notes (optional)</span>
+              <textarea id="voter-note" rows="2" placeholder="e.g. Prefer mornings, can't do camping, etc." maxlength="300"></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-lg">Save my vote</button>
+              <button type="button" id="clear-vote" class="btn btn-ghost">Clear my vote</button>
+            </div>
+            <p id="save-status" class="save-status" role="status"></p>
+          </form>
+
+          <aside class="card share-card">
+            <h3>Share &amp; merge votes</h3>
+            <p>
+              Every device stores its own votes. To combine everyone's answers on one page:
+            </p>
+            <ol>
+              <li>Each household votes and taps <strong>"Copy my vote link"</strong>.</li>
+              <li>They send you the link (text / email / WhatsApp).</li>
+              <li>You paste each link into the address bar and open it — the vote is added automatically.</li>
+              <li>Then open the page on the TV or share the "all votes" link.</li>
+            </ol>
+            <button type="button" id="copy-my-vote" class="btn btn-secondary btn-block">Copy my vote link</button>
+            <button type="button" id="copy-all-votes" class="btn btn-secondary btn-block">Copy all-votes link</button>
+            <div class="input-row">
+              <input type="text" id="paste-vote" placeholder="Paste a vote link here" />
+              <button type="button" id="import-vote" class="btn btn-primary">Import</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section id="results" class="section">
+      <div class="container">
+        <h2 class="section-title">Results</h2>
+
+        <div id="best-date" class="best-date card hidden"></div>
+
+        <div class="results-grid">
+          <div class="card">
+            <h3>Favorite trip tally</h3>
+            <div id="favorite-tally" class="tally"></div>
+          </div>
+
+          <div class="card">
+            <h3>Availability</h3>
+            <p class="hint">Green = that person is free that weekend. ★ marks weekends <strong>everyone</strong> is free.</p>
+            <div id="availability-table" class="availability-wrap"></div>
+          </div>
+        </div>
+
+        <div class="card votes-list-card">
+          <h3>Who has voted so far</h3>
+          <ul id="votes-list" class="votes-list"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Built for our yearly rafting trip planning · Vote early, vote often, raft together 🛶</p>
+      <p class="footer-small">Full proposal &amp; details: <a href="PROPOSAL.md">PROPOSAL.md</a></p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

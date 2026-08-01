@@ -1,0 +1,12 @@
+{
+  "name": "rafting-trip-2026",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Annual Rafting Trip 2026 — Vote & Availability static site",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.3"
+  }
+}
