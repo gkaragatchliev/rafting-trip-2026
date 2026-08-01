@@ -63,8 +63,8 @@ function makeDom() {
   const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
   const inline = buildScript().split("</script>").join("<\\/script>");
   const processed = html
-    .split('<script src="js/data.js"></script>').join("")
-    .split('<script src="js/app.js"></script>').join("<script>" + inline + "</script>");
+    .split('<script src="js/data.js?v=2"></script>').join("")
+    .split('<script src="js/app.js?v=2"></script>').join("<script>" + inline + "</script>");
 
   const vc = new VirtualConsole();
   vc.on("jsdomError", () => {});
