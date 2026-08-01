@@ -85,18 +85,19 @@
     });
   }
 
+  function seCol(title, items) {
+    if (!items || !items.length) return "";
+    return (
+      '<div class="se-col">' +
+        '<h4>' + title + '</h4>' +
+        '<ul class="se-list">' + items.map(function (it) {
+          return '<li><strong>' + escapeHtml(it.name) + '</strong> — ' + escapeHtml(it.info) + '</li>';
+        }).join("") + '</ul>' +
+      '</div>'
+    );
+  }
+
   function stayEatBlock(t) {
-    var seCol = function (title, items) {
-      if (!items || !items.length) return "";
-      return (
-        '<div class="se-col">' +
-          '<h4>' + title + '</h4>' +
-          '<ul class="se-list">' + items.map(function (it) {
-            return '<li><strong>' + escapeHtml(it.name) + '</strong> — ' + escapeHtml(it.info) + '</li>';
-          }).join("") + '</ul>' +
-        '</div>'
-      );
-    };
     if (!t.stay && !t.eat) return "";
     return (
       '<details class="stay-eat">' +
@@ -105,6 +106,23 @@
         seCol("Eat", t.eat) +
       '</details>'
     );
+  }
+
+  // ---------- render: lodging & restaurants panel ----------
+  function renderStayEatPanel() {
+    var panel = $("#stay-eat-panel");
+    if (!panel) return;
+    panel.innerHTML = TRIPS.map(function (t) {
+      return (
+        '<div class="se-trip">' +
+          '<h3>' + t.emoji + " " + t.name + "</h3>" +
+          '<div class="se-grid">' +
+            seCol("Stay", t.stay) +
+            seCol("Eat", t.eat) +
+          '</div>' +
+        '</div>'
+      );
+    }).join("");
   }
 
   // ---------- render: favorite picker ----------
@@ -460,6 +478,20 @@
     renderResults();
     renderVotesList();
     handleHash();
+
+    var seToggle = $("#stay-eat-toggle");
+    if (seToggle) {
+      renderStayEatPanel();
+      seToggle.addEventListener("click", function () {
+        var panel = $("#stay-eat-panel");
+        if (!panel) return;
+        var open = panel.classList.toggle("hidden");
+        seToggle.setAttribute("aria-expanded", open ? "false" : "true");
+        seToggle.textContent = open
+          ? "🏠 Lodging & restaurants (info only)"
+          : "Hide lodging & restaurants";
+      });
+    }
 
     var form = $("#vote-form");
     if (form) form.addEventListener("submit", handleSave);

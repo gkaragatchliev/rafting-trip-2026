@@ -159,6 +159,16 @@ a:hover { text-decoration: underline; }
 .se-list { margin: 0; padding: 0 0 0 16px; font-size: 0.8rem; color: var(--muted); }
 .se-list li { margin-bottom: 5px; }
 .se-list strong { color: var(--ink); }
+
+#stay-eat-toggle { margin-bottom: 20px; }
+
+.stay-eat-panel { margin-bottom: 20px; }
+.stay-eat-panel .se-trip + .se-trip { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
+.stay-eat-panel .se-trip h3 { margin: 0 0 10px; font-size: 1.05rem; }
+.stay-eat-panel .se-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 860px) { .stay-eat-panel .se-grid { grid-template-columns: 1fr; } }
+.stay-eat-panel .se-col { margin-top: 0; }
+
 .trip-card .check {
   margin-top: auto;
   text-align: center;

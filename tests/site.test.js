@@ -48,6 +48,7 @@ function buildScript() {
     "    dateByKey: dateByKey,\n" +
     "    tripById: tripById,\n" +
     "    loadVotes: loadVotes,\n" +
+    "    renderStayEatPanel: renderStayEatPanel,\n" +
     "    TRIPS: TRIPS,\n" +
     "    DATES: DATES\n" +
     "  };\n";
@@ -305,6 +306,47 @@ test("clicks inside the stay-eat block do not select the card", () => {
   const d = w.document;
   click(w, d.querySelector('#trip-cards .trip-card[data-id="deschutes"] .stay-eat summary'));
   assert.strictEqual(w.__raft.state.favorite, null, "stay-eat click should be ignored");
+});
+
+test("lodging & restaurants button sits under the vote pane and toggles a panel listing every stay & eat", () => {
+  const w = fresh().window;
+  const d = w.document;
+  const btn = d.getElementById("stay-eat-toggle");
+  const panel = d.getElementById("stay-eat-panel");
+  assert.ok(btn, "toggle button exists");
+  assert.ok(panel, "panel exists");
+  assert.ok(btn.textContent.includes("Lodging & restaurants"));
+  assert.ok(btn.textContent.toLowerCase().includes("info only"), "button signals info-only");
+
+  const voteSection = d.querySelector("#vote .container");
+  const layout = d.querySelector("#vote .vote-layout");
+  assert.ok(voteSection, "vote section exists");
+  const btnIndex = Array.from(voteSection.children).indexOf(btn);
+  const layoutIndex = Array.from(voteSection.children).indexOf(layout);
+  assert.ok(btnIndex !== -1 && layoutIndex !== -1 && btnIndex < layoutIndex, "button renders above the vote layout, under the vote heading");
+
+  assert.ok(panel.classList.contains("hidden"), "panel hidden by default");
+
+  const trips = panel.querySelectorAll(".se-trip");
+  assert.strictEqual(trips.length, 4, "one block per trip");
+  TRIPS.forEach((t, i) => {
+    assert.ok(trips[i].querySelector("h3").textContent.includes(t.name), `${t.id} heading`);
+    const colTitles = Array.from(trips[i].querySelectorAll(".se-col h4")).map((h) => h.textContent);
+    assert.ok(colTitles.includes("Stay") && colTitles.includes("Eat"), `${t.id} has Stay & Eat columns`);
+    const lis = trips[i].querySelectorAll("li");
+    assert.strictEqual(lis.length, t.stay.length + t.eat.length, `${t.id} lists all options`);
+    t.stay.concat(t.eat).forEach((item) => {
+      const li = Array.from(lis).find((l) => l.textContent.includes(item.name) && l.textContent.includes(item.info));
+      assert.ok(li, `${t.id} "${item.name}" is listed with its info`);
+    });
+  });
+
+  click(w, btn);
+  assert.ok(!panel.classList.contains("hidden"), "panel opens on click");
+  assert.strictEqual(btn.getAttribute("aria-expanded"), "true");
+  click(w, btn);
+  assert.ok(panel.classList.contains("hidden"), "panel closes on second click");
+  assert.strictEqual(btn.getAttribute("aria-expanded"), "false");
 });
 
 // ---------------------------------------------------------------------------
